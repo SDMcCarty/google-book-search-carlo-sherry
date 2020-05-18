@@ -23,7 +23,6 @@ class SearchForm extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         console.log('Submitted new search term!');
-        console.log(this.state.searchTerm);
         const searchTerm = this.state.searchTerm;
         const titleTerm = searchTerm;
         this.props.changeSearchTerm(titleTerm);
@@ -39,7 +38,7 @@ class SearchForm extends React.Component {
             "Content-Type": "application/json"
           }
         };
-        console.log(baseUrl)
+
         fetch(baseUrl, options)
           .then(res => {
             if(!res.ok) {
@@ -85,8 +84,7 @@ class SearchForm extends React.Component {
                 library.push(book);
         
                 }) 
-                
-                console.log(library);
+
                 this.props.changeError(false, '');
                 this.props.changeLibrary(library);
             } else {
@@ -95,7 +93,6 @@ class SearchForm extends React.Component {
             }
           })
           .catch(err => {
-            console.log(err.message);
             this.props.changeError(true, 'Error: ' + err.message);
             this.props.changeLibrary([]);
           });

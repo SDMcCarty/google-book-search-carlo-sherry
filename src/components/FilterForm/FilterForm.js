@@ -35,8 +35,6 @@ class FilterForm extends React.Component {
     }
 
     handleRequest() {
-        console.log(this.state.bookPrice);
-        console.log(this.state.printType);
         const baseUrl = 'https://www.googleapis.com/books/v1/volumes?q=' + this.props.searchTerm + '&filter=' + this.state.bookPrice + '&printType=' + this.state.printType;
         const options = {
           method: 'GET',
@@ -44,8 +42,6 @@ class FilterForm extends React.Component {
             "Content-Type": "application/json"
           }
         };
-
-        console.log(baseUrl);
     
         fetch(baseUrl, options)
           .then(res => {
@@ -93,7 +89,6 @@ class FilterForm extends React.Component {
         
                 }) 
                 
-                console.log(library);
                 this.props.changeError(false, '');
                 this.props.changeLibrary(library);
               } else {
@@ -102,7 +97,6 @@ class FilterForm extends React.Component {
               }
           })
           .catch(err => {
-            console.log(err.message);
             this.props.changeError(true, 'Error: ' + err.message);
             this.props.changeLibrary([]);
           });

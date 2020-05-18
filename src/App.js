@@ -42,15 +42,10 @@ class App extends React.Component {
   }
 
   render() {
-    //console.log(this.state.searchTerm);
-    console.log(this.state.books);
-
     const bookInfo = this.state.books.map(book => {
       return <BookInfo author={book.author} description={book.description} url={book.imageUrl} price={book.price} title={book.title} />
     })
 
-    console.log(this.state.error);
-    console.log(this.state.errorMsg);
     const errorHtml = this.state.error ? <div>{this.state.errorMsg}</div> : '';
 
 
