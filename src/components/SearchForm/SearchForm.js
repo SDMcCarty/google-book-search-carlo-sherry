@@ -9,6 +9,7 @@ class SearchForm extends React.Component {
     }
 
     searchTermChanged(term) {
+        console.log(`Form state changed`);
         this.setState({
             searchTerm: term
         })
@@ -17,6 +18,7 @@ class SearchForm extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         console.log('Submitted new search term!');
+        console.log(this.state.searchTerm);
         const searchTerm = this.state.searchTerm;
         const titleTerm = searchTerm;
         this.props.changeSearchTerm(titleTerm);
@@ -26,9 +28,9 @@ class SearchForm extends React.Component {
 
     render() {
         return (
-            <form className="search-form">
+            <form className="search-form" onSubmit={e => this.handleSubmit(e)}>
                 <label htmlFor="search">Search</label>
-                <input type="text" id="search" placeholder="Search for books" value={this.props.searchTerm} onChange={e => this.searchTermChanged(e.target.value)} />
+                <input type="text" id="search" placeholder="Search for books" onChange={e => this.searchTermChanged(e.target.value)} />
                 <button type="submit">Submit</button>
             </form>
         )
