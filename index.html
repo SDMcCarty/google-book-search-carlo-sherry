@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Book Search</title>
+  <link href="index.css" rel="stylesheet" type="text/css"></link>
+</head>
+<body>
+  <header>
+    <h1>Google Book Search</h1>
+  </header>
+  <main>
+    <form class="search-form">
+      <label for="search">Search</label>
+      <input type="title" id="search" placeholder="Search for books" />
+      <button type="submit">Submit</button>
+    </form>
+    <div class="filter-form">
+      <label for="print-type">Print Type</label>
+      <select id="print-type">
+        <option value="none">All</option>
+      </select>
+      <label for="book-type">Book Type</label>
+      <select id="book-type">
+        <option value="book-type">No Filter</option>
+      </select>
+    </div>
+
+    <section>
+      <div class="book-info">
+        <h2>Title</h2>
+          <div class="info-wrapper">
+            <div class="thumbnail">
+              Picture
+            </div>
+            <div class="book-details">
+              <p>Author</p>
+              <p>Price</p>
+              <p>Description</p>
+            </div>
+          </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
