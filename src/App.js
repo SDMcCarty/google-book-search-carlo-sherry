@@ -13,7 +13,9 @@ class App extends React.Component {
     super(props);
     this.state = {
       books: [],
-      searchTerm: "" 
+      searchTerm: "",
+      errorMsg: "", 
+      error: false
     }
 
   }
@@ -31,6 +33,14 @@ class App extends React.Component {
     })
   }
 
+  changeError(error, errorMsg)  {
+    console.log(error);
+    this.setState({
+      errorMsg: errorMsg,
+      error: error
+    })
+  }
+
   render() {
     //console.log(this.state.searchTerm);
     console.log(this.state.books);
@@ -38,6 +48,11 @@ class App extends React.Component {
     const bookInfo = this.state.books.map(book => {
       return <BookInfo author={book.author} description={book.description} url={book.imageUrl} price={book.price} title={book.title} />
     })
+
+    console.log(this.state.error);
+    console.log(this.state.errorMsg);
+    const errorHtml = this.state.error ? <div>{this.state.errorMsg}</div> : '';
+
 
     return (
       
@@ -47,9 +62,9 @@ class App extends React.Component {
             <h1>Google Book Search</h1>
           </header>
           <main>
-            <SearchForm title={this.state.title} changeSearchTerm={term => this.changeSearchTerm(term)} searchTerm={this.state.searchTerm} changeLibrary={lib => this.changeLibrary(lib)}/>
-            <FilterForm searchTerm={this.state.searchTerm} changeLibrary={lib => this.changeLibrary(lib)} />
-  
+            <SearchForm title={this.state.title} changeSearchTerm={term => this.changeSearchTerm(term)} searchTerm={this.state.searchTerm} changeLibrary={lib => this.changeLibrary(lib)} changeError={(e,msg) => this.changeError(e,msg)}/>
+            <FilterForm searchTerm={this.state.searchTerm} changeLibrary={lib => this.changeLibrary(lib)} changeError={(e,msg) => this.changeError(e,msg)} />
+            {errorHtml}
             <section>
               {bookInfo}
             </section>

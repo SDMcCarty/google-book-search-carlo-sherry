@@ -55,6 +55,7 @@ class FilterForm extends React.Component {
             return res.json();
           })
           .then(data => {
+              
               console.log(data);
               if(data.totalItems !== 0) {
                 let library = [];
@@ -93,13 +94,17 @@ class FilterForm extends React.Component {
                 }) 
                 
                 console.log(library);
+                this.props.changeError(false, '');
                 this.props.changeLibrary(library);
               } else {
+                this.props.changeError(false, '');
                 this.props.changeLibrary([]);
               }
           })
           .catch(err => {
             console.log(err.message);
+            this.props.changeError(true, 'Error: ' + err.message);
+            this.props.changeLibrary([]);
           });
     }
 

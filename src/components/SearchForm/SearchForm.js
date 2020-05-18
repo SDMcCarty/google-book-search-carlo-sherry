@@ -43,55 +43,63 @@ class SearchForm extends React.Component {
         fetch(baseUrl, options)
           .then(res => {
             if(!res.ok) {
-              throw new Error('You suck');
+              throw new Error(res.status);
             }
             return res.json();
           })
           .then(data => {
             console.log(data);
-            let library = [];
-            data.items.forEach(item => {
-              const book = {
-                author: "",
-                title: "",
-                price: "Not Available",
-                imageUrl: "",
-                description: ""
-              }
-    
-              if(item.volumeInfo.authors === undefined) {
-                book.author = 'No author available';
-              } else {
-                book.author = item.volumeInfo.authors;
-              }
-    
-              if(item.saleInfo.retailPrice === undefined) {
-                book.price = 'No price available';
-              } else {
-                book.price = USCurrencyFormat.format(item.saleInfo.retailPrice.amount);
-              }
-    
-              if(item.volumeInfo.description === undefined) {
-                book.description = 'No description available';
-              } else {
-                book.description = item.volumeInfo.description;
-              }
-    
-              book.title = item.volumeInfo.title;
-              book.imageUrl = item.volumeInfo.imageLinks.thumbnail;
-    
-              library.push(book);
-    
-            }) 
             
-            console.log(library);
-            this.props.changeLibrary(library);
+            if(data.totalItems !== 0) {
+                let library = [];
+                data.items.forEach(item => {
+                const book = {
+                    author: "",
+                    title: "",
+                    price: "Not Available",
+                    imageUrl: "",
+                    description: ""
+                }
+        
+                if(item.volumeInfo.authors === undefined) {
+                    book.author = 'No author available';
+                } else {
+                    book.author = item.volumeInfo.authors;
+                }
+        
+                if(item.saleInfo.retailPrice === undefined) {
+                    book.price = 'No price available';
+                } else {
+                    book.price = USCurrencyFormat.format(item.saleInfo.retailPrice.amount);
+                }
+        
+                if(item.volumeInfo.description === undefined) {
+                    book.description = 'No description available';
+                } else {
+                    book.description = item.volumeInfo.description;
+                }
+        
+                book.title = item.volumeInfo.title;
+                book.imageUrl = item.volumeInfo.imageLinks.thumbnail;
+        
+                library.push(book);
+        
+                }) 
+                
+                console.log(library);
+                this.props.changeError(false, '');
+                this.props.changeLibrary(library);
+            } else {
+                this.props.changeError(false, '');
+                this.props.changeLibrary([]);
+            }
           })
           .catch(err => {
             console.log(err.message);
+            this.props.changeError(true, 'Error: ' + err.message);
+            this.props.changeLibrary([]);
           });
       } 
-
 
     render() {
         return (
