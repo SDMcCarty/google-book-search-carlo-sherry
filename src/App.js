@@ -31,74 +31,14 @@ class App extends React.Component {
     })
   }
 
-  componentDidUpdate() {
-    console.log(`Ran componentDidUpdate`);
-
-    const baseUrl = 'https://www.googleapis.com/books/v1/volumes?q=' + this.state.searchTerm;
-    const options = {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-
-    fetch(baseUrl, options)
-      .then(res => {
-        if(!res.ok) {
-          throw new Error('You suck');
-        }
-        return res.json();
-      })
-      .then(data => {
-        let library = [];
-        data.items.forEach(item => {
-          const book = {
-            author: "",
-            title: "",
-            price: "Not Available",
-            imageUrl: "",
-            description: ""
-          }
-
-          if(item.volumeInfo.authors === undefined) {
-            book.author = 'No author available';
-          } else {
-            book.author = item.volumeInfo.authors;
-          }
-
-          if(item.saleInfo.retailPrice === undefined) {
-            book.price = 'No price available';
-          } else {
-            book.price = item.saleInfo.retailPrice.amount;
-          }
-
-          if(item.volumeInfo.description === undefined) {
-            book.description = 'No description available';
-          } else {
-            book.description = item.volumeInfo.description;
-          }
-
-          book.title = item.volumeInfo.title;
-          book.imageUrl = item.volumeInfo.imageLinks.thumbnail;
-
-          library.push(book);
-
-        }) 
-
-        this.setState ({
-          books: library
-        });
-      })
-      .catch(err => {
-        console.log(err.message);
-      });
-    
-
-  } 
-
   render() {
     //console.log(this.state.searchTerm);
-    //console.log(this.state.books);
+    console.log(this.state.books);
+
+    const bookInfo = this.state.books.map(book => {
+      return <BookInfo author={book.author} description={book.description} url={book.imageUrl} price={book.price} title={book.title} />
+    })
+
     return (
       
       <div className='App'>
@@ -108,10 +48,10 @@ class App extends React.Component {
           </header>
           <main>
             <SearchForm title={this.state.title} changeSearchTerm={term => this.changeSearchTerm(term)} searchTerm={this.state.searchTerm} changeLibrary={lib => this.changeLibrary(lib)}/>
-            <FilterForm />
+            <FilterForm searchTerm={this.state.searchTerm} changeLibrary={lib => this.changeLibrary(lib)} />
   
             <section>
-              <BookInfo  />
+              {bookInfo}
             </section>
           </main>
         </>

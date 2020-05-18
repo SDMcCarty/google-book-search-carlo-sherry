@@ -38,6 +38,8 @@ h1 {
 
 .thumbnail {
   width: 20%;
+  min-width: 140px;
+  min-height: 225px;
 }
 
 .book-details {
